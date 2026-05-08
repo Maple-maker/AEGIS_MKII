@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AEGIS Command Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">AEGIS Phase 1.2</p>
+      <h1>Model-Agnostic AI Command Briefing</h1>
+      <p class="subtitle">
+        Paste your notes, choose the right model provider, and generate a mission-focused brief.
+      </p>
+    </section>
+
+    <section class="warning">
+      <strong>Security reminder:</strong>
+      Do not paste classified, sensitive operational, or private soldier information into a cloud-hosted app.
+    </section>
+
+    <section class="panel">
+      <div class="grid">
+        <label>
+          Provider
+          <select id="provider">
+            {% for provider in providers %}
+              <option value="{{ provider.id }}" {% if provider.id == default_provider %}selected{% endif %}>
+                {{ provider.label }}{% if not provider.configured %} — not configured{% endif %}
+              </option>
+            {% endfor %}
+          </select>
+        </label>
+
+        <label>
+          Briefing type
+          <select id="briefingType">
+            <option value="daily">Daily Brief</option>
+            <option value="commute">Commute Audio Brief</option>
+            <option value="commander_update">Commander Update</option>
+            <option value="weekly">Weekly Review</option>
+            <option value="analysis">Analysis</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        Notes
+        <textarea id="notes" rows="14" placeholder="- Top tasks today&#10;- Deadlines&#10;- Issues or risks&#10;- Anything you want AEGIS to analyze"></textarea>
+      </label>
+
+      <div class="actions">
+        <button id="generateBtn">Generate Brief</button>
+        <button id="speakBtn" class="secondary" disabled>Speak</button>
+        <button id="stopBtn" class="secondary" disabled>Stop</button>
+        <button id="copyBtn" class="secondary" disabled>Copy</button>
+      </div>
+    </section>
+
+    <section class="panel output">
+      <div class="outputHeader">
+        <h2>AEGIS Output</h2>
+        <span id="meta"></span>
+      </div>
+      <pre id="brief">Your briefing will appear here.</pre>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
